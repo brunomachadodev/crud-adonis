@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +14,12 @@
 */
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
-const Route = use('Route')
+const Route = use("Route");
 
-Route.on('/').render('welcome')
+Route.resource("clientes", "ClienteController").apiOnly;
+
+// Route.on("/").render("welcome");
+
+Route.get("/", () => "Hello, Bruno");
+
+Route.post("/ac", "AcController.yoogaApi");

@@ -46,40 +46,21 @@ class AcController {
       }
     );
 
-    let list = {
-      contact: {
-        email: "johndoe@example.com",
-        firstName: "John",
-        lastName: "Doe",
-        phone: "7223224241",
-        fieldValues: [
-          {
-            field: "1",
-            value: "The Value for First Field",
-          },
-          {
-            field: "6",
-            value: "2008-01-20",
-          },
-        ],
-      },
+    let account = {
+      email: `${data.email}`,
+      first_name: `${data.name}`,
+      last_name: `${data.last_name}`,
+      phone: `${data.phone}`,
     };
-    // {
-    //   account: {
-    //     firstName: data.name,
-    //     lastName: data.last_name,
-    //     accountUrl: "google.com",
-    //   },
-    // };
 
-    var list_add = ac.api("/contacts", list);
+    var list_add = ac.api("contact/add", account);
     list_add.then(
       function (result) {
         // successful request
-        console.log("Connection successful");
+        console.log("Deu certo! ", result);
       },
       function (result) {
-        console.log("Erro: ", result);
+        console.log("Falha no processo! ", result);
         // request error
       }
     );

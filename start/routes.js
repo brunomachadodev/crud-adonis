@@ -25,3 +25,5 @@ Route.get("/", () => "Hello, Bruno");
 Route.post("/ac", "AcController.yoogaApi");
 
 Route.post("/teste", "TesteController.ac");
+
+Route.post("/contact", "AcApi.createContact");

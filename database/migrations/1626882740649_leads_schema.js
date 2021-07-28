@@ -7,7 +7,7 @@ class LeadsSchema extends Schema {
   up() {
     this.create("leads", (table) => {
       table.increments();
-      table.string("nome", 80).notNullable();
+      table.string("nome", 255).notNullable();
       table.string("sobrenome", 255).notNullable();
       table.string("email").notNullable().unique();
       table.string("telefone").notNullable().unique();

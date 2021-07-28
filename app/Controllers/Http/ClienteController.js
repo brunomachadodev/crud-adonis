@@ -1,5 +1,7 @@
 "use strict";
 
+// Exemplo de crud
+
 const Cliente = use("App/Models/Cliente");
 class ClienteController {
   async index({ request, response, view }) {

@@ -16,7 +16,8 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use("Route");
 
-Route.resource("clientes", "ClienteController").apiOnly;
+// Exemplo de crud
+// Route.resource("clientes", "ClienteController").apiOnly;
 
 // Route.on("/").render("welcome");
 
@@ -26,4 +27,8 @@ Route.post("/ac", "AcController.yoogaApi");
 
 Route.post("/teste", "TesteController.ac");
 
-Route.post("/contact", "AcApi.createContact");
+Route.post("/lead/firststep", "AcApiController.firstStep");
+
+Route.post("/lead/secondstep", "AcApiController.secondStep");
+
+Route.delete("/deletefield", "AcApiController.deleteCustomField");

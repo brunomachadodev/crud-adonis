@@ -1,5 +1,7 @@
 "use strict";
 
+// Exemplo de integração com API V1 ActiveCampaign
+
 const Lead = use("App/Models/Lead");
 const Env = use("Env");
 const ActiveCampaign = require("activecampaign");

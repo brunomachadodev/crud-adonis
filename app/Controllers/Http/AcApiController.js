@@ -3,25 +3,32 @@
 const axios = require("axios");
 const Config = use("Config");
 
+const config = {
+  headers: {
+    "Api-Token": Config.get("app.activecampaign.token"),
+  },
+};
+
+const url = Config.get("app.activecampaign.endpoint");
+
 class AcApi {
   async firstStep({ request, response }) {
     // let data = request.all();
 
-    let url = Config.get("app.activecampaign.endpoint");
+    // let url = Config.get("app.activecampaign.endpoint");
 
     let random = Math.floor(Math.random() * 10000);
-
-    let query = {
-      contac,
-    };
 
     let query = {
       contacts: [
         {
           email: `${random}@gmail.com`,
+          // email: `${data.email}`,
           firstName: `${random}`,
+          // firstName:`${data.name}`,
           lastName: "Static Test",
           phone: `9999${random}`,
+          // phone: `${data.phone}`
         },
         {
           email: `${random}@outlook.com`,
@@ -35,12 +42,7 @@ class AcApi {
       },
     };
 
-    let config = {
-      headers: {
-        "Api-Token": Config.get("app.activecampaign.token"),
-      },
-    };
-
+    // Contact Create
     try {
       let res = await axios
         .post(`${url}/contacts`, query, config)
@@ -64,12 +66,69 @@ class AcApi {
           return response.send(err);
         });
     } catch (e) {
-      console.log(e);
+      console.error(e);
       return response.send(e);
     }
   }
 
-  async secondStep({ request, response }) {}
+  async secondStep({ request, response }) {
+    // let url = Config.get("app.activecampaign.endpoint");
+
+    let data = request.all();
+
+    let queryAccount = `
+    {
+      "account": {
+        "name": ${data.company}
+      }
+    }
+    `;
+
+    let contactEmail = "1234@gmail.com";
+
+    try {
+      // Consult Contact by [email] filter and return
+      let res = await axios
+        .get(`${url}/contacts?filters[email]=${contactEmail}`, config)
+        .then((res) => {
+          let contactId = res.contacts[0].id;
+
+          // Create Account
+
+          await axios
+            .post(`${url}/accounts`, queryAccount, config)
+            .then((res) => {
+              // Contact - Account association
+
+              await axios
+                .post(`${url}/accountContacts`, queryAssociation, config)
+                .then()
+                .catch((err) => {
+                  console.error(
+                    "[ActiveCampaign] Account Association is wrong! " + err
+                  );
+                });
+            })
+            .catch((err) => {
+              console.error("[ActiveCampaign] Create Account is wrong! " + err);
+            });
+        })
+        .catch((err) => {
+          console.error("[ActiveCampaign] Consult Contact is wrong! " + err);
+        });
+    } catch (e) {
+      console.error(e);
+      return response.send(e);
+    }
+  }
+
+  async thirdStep({ request, response }) {
+    try {
+    } catch (e) {
+      console.error(e);
+      return response.send(e);
+    }
+  }
 
   async deleteCustomField({ request, response }) {
     let data = request.all();
@@ -98,7 +157,7 @@ class AcApi {
         })
         .catch((err) => console.error("error:" + err));
     } catch (e) {
-      console.log(e);
+      console.error(e);
       return response.send(e);
     }
   }

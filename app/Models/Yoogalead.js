@@ -3,10 +3,14 @@
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use("Model");
 
-class Cliente extends Model {
+class Yoogalead extends Model {
   static get table() {
-    return "leads";
+    return "yoogaleads";
+  }
+
+  static get primaryKey() {
+    return "id";
   }
 }
 
-module.exports = Cliente;
+module.exports = Yoogalead;

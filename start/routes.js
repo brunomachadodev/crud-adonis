@@ -34,3 +34,5 @@ Route.post("/lead/secondstep", "AcApiController.secondStep");
 Route.post("/lead/thirdstep", "AcApiController.thirdStep");
 
 Route.delete("/deletefield", "AcApiController.deleteCustomField");
+
+Route.post("/db", "AcApiController.populateDB");

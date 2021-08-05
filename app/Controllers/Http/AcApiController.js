@@ -1,6 +1,7 @@
 "use strict";
 
 const axios = require("axios");
+const Newlead = use("App/Models/Newlead");
 const Config = use("Config");
 const Yoogalead = use("App/Models/Yoogalead");
 
@@ -21,7 +22,7 @@ class AcApi {
     lead.email = data.email;
     lead.phone = data.phone;
 
-    let random = Math.floor(Math.random() * 10000);
+    const random = Math.floor(Math.random() * 10000);
 
     // let query = {
     //   contacts: [
@@ -48,9 +49,9 @@ class AcApi {
 
     let queryContacts = {
       contacts: {
-        email: `${data.email}`,
-        firstName: `${data.name}`,
-        phone: `${data.phone}`,
+        email: "n456ame@gmail.com",
+        firstName: "An324other Le678ad",
+        phone: "88927353",
       },
     };
 
@@ -68,18 +69,19 @@ class AcApi {
         .post(`${url}/contacts`, queryContacts, config)
         .then((res) => {
           let contactId = res.data.contact.id;
-
-          // console.log(`Status: ${res.status} - ${res.statusText} | `);
-          // console.log("RES.DATA: " + res.data.data);
-          // console.log("RES.HEADERS: " + { headers });
-          // console.log("RES.CONFIG: " + response.config);
           console.log("[ActiveCampaign] Contact created! Id: " + contactId);
 
           axios
-            .post(`${url}/contactLists`)
-            .then()
+            .post(`${url}/contactLists`, queryList, config)
+            .then((res) => {
+              console.log(
+                "[ActiveCampaign] Contact - List association successful"
+              );
+            })
             .catch((err) => {
-              console.error("[ActiveCampaign] Create Contact failed! " + err);
+              console.error(
+                "[ActiveCampaign] Contact - List association failed! " + err
+              );
             });
         })
         .catch((err) => {
@@ -93,8 +95,6 @@ class AcApi {
   }
 
   async secondStep({ request, response }) {
-    // let url = Config.get("app.activecampaign.endpoint");
-
     let data = request.all();
 
     // Consulta no DB (pelo id que vem do pipefy)
@@ -106,7 +106,7 @@ class AcApi {
       },
     };
 
-    let contactEmail = "alice@bol.com";
+    let contactEmail = "alice@example.com";
 
     try {
       // Consult Contact by [email] filter and return
@@ -223,6 +223,25 @@ class AcApi {
       console.error(e);
       return response.send(e);
     }
+  }
+
+  async populateDB({ request, response }) {
+    const data = request.all();
+    console.log(data);
+    const lead = new Newlead();
+
+    const random = Math.floor(Math.random() * 10000);
+
+    lead.name = `${random} Test`;
+    lead.email = `${random}@gmail.com`;
+    lead.phone = `${random}${random}`;
+
+    // try {
+    //   await lead.save();
+    //   console.log("Sucesso!");
+    // } catch (e) {
+    //   console.error(e);
+    // }
   }
 }
 
